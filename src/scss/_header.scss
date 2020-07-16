@@ -1,0 +1,167 @@
+#header {
+    min-height: 44em;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+
+    .simpleParallax{
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        
+        img{
+            margin: 0px auto;
+            display: block;            
+        }
+    }
+    
+    @media screen and (min-width: $lg) {
+        min-height: 48em;
+        padding: 0 0.5em;
+    }
+
+
+    .navigation{
+        display: flex;
+        justify-content: space-between;
+        padding-top: 2em;
+        position: relative;
+        z-index: 2;
+        
+        a {
+            display: block;
+        }
+    
+        .button {
+            display: none;
+        }
+    
+        .message-icon {
+            display: block;
+            height: 2.5em;
+            width: 3em;
+            cursor: pointer;
+            background: url("../../dist/img/message.svg") center center no-repeat;
+            background-size: contain;
+        }
+    
+        @media screen and (min-width: $md) {
+            //padding-top: 4em; 
+
+            .button {
+                display: inline-block;
+            }
+    
+            .message-icon {
+                display: none;
+            }
+        }
+    
+        @media screen and (min-width: $lg) {
+            padding-top: 3em;
+        }
+    }    
+
+
+
+    .intro{
+        margin-top: 2.5em;
+        position: relative;
+        z-index: 2;        
+
+        @media screen and (min-width: $md) {
+            margin-top: 8.5em;
+        }
+
+        h1 {
+            font-weight: 300;            
+            padding-top: 1em;
+            font-size: 1.55em;
+            position: relative;
+    
+            br {
+                display: none;
+    
+                @media screen and (min-width: $md) {
+                    display: inline;
+                }
+            }
+    
+            @media screen and (min-width: $lg) {
+                padding-top: 0;
+                font-size: 1.25em;
+                line-height: 1.35;
+                &::after {
+                    content: "";
+                    display: block;
+                    width: 10rem;
+                    border-bottom: 6px solid $yellow;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                }
+            }
+        }
+    
+        p {
+            font-size: 2.375em;
+            line-height: 1.25;
+            margin-top: 2.5em;
+
+            animation-duration: 1.5s;
+            animation-fill-mode: both;
+            animation-name: fadeInTp;
+            animation-delay: 1s;
+
+            @keyframes fadeInTp {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10%);
+                }
+                to {
+                    opacity: 1;
+                }
+            }            
+    
+            @media screen and (min-width: $md) {
+                font-size: 3.25em;
+                margin-top: 0em;
+                line-height: 1;
+            }
+    
+            @media screen and (min-width: $lg) {
+                font-size: 4.375em;
+                margin-top: 0.5em;
+            }
+    
+            span {
+                font-weight: 600;
+                text-transform: none;
+                color: $yellow;
+                animation-duration: 1.5s;
+                animation-fill-mode: both;
+                animation-name: fadeInBot;
+                animation-delay: 1.5s;
+
+                @keyframes fadeInBot {
+                    from {
+                        opacity: 0;
+                        transform: translateY(50%);
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }           
+            }
+        }
+    }
+
+
+
+
+}

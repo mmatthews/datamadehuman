@@ -1,0 +1,362 @@
+var $ = jQuery.noConflict();
+
+var custom_form = {
+
+    vars: {
+        form_id: "register-form",
+        honeypot_id: "petname",
+        error_messages_id: "errors",
+        endpoint: "/wp-json/dmh/v1/submit_form",
+        is_loading: false,
+        loading_el: document.querySelector('.form-wrapper .loading')
+    },
+
+    post_data: async function (url = "", data = {}) {
+        const response = await fetch(url, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            redirect: "follow",
+            body: JSON.stringify(data)
+        });
+        return await response.json();
+    },
+
+    send_entry: function (form_data) {
+        custom_form.post_data(custom_form.vars.endpoint, form_data).then(data => {
+            custom_form.check_validity(data);
+        });
+    },
+
+    check_validity: function (data) {
+        //console.log(data.is_valid);
+        if (data.is_valid == false) {
+            custom_form.show_errors(data.validation_messages)
+        } else {
+            //console.log(data.confirmation_message);
+            custom_form.thank_you(data.confirmation_message);
+        }
+        custom_form.hide_loader();
+    },
+
+    show_errors: function (errors) {
+
+
+        // Print error message in top
+        /*
+        var error_messages = document.getElementById(custom_form.vars.error_messages_id);
+
+        error_messages.innerHTML = "";
+        var messages = ``
+        messages += `<ul>`
+        for (let [key, value] of Object.entries(errors)) {
+            messages += `<li id="field${key}">${value}</li>`
+        }
+        messages += `</ul>`
+        error_messages.innerHTML = messages
+
+
+        // Remove error labels
+        document.querySelectorAll('.form-wrap input').forEach(input => {
+            input.parentNode.classList.remove('error')
+            input.removeAttribute('aria-describedby')
+            input.removeAttribute('aria-invalid')
+        })
+        */
+
+       document.querySelectorAll('.input-box').forEach(input => {
+           input.classList.remove('error')
+           if(input.querySelector('.error-message')) input.querySelector('.error-message').remove()
+       })
+       
+        for (let [key, value] of Object.entries(errors)) {
+
+
+            let error_field = document.getElementById('input_' + key);
+            error_field.classList.add('error')
+
+            let error = document.createElement("span")
+            error.classList.add('error-message')
+            var error_message = document.createTextNode(value)
+            error.appendChild(error_message)
+            error_field.appendChild(error)
+            
+        }        
+
+    },
+
+    thank_you: function (message) {
+
+        // GTM
+        //dataLayer.push({'event': 'registerComplete'});
+
+        var inital_content = document.querySelector('.modal--content .form-content')
+        var thank_you = document.querySelector('.modal--content .thank-you')
+
+        //console.log(inital_content);
+        $(inital_content).fadeOut(200, function () {
+            thank_you.innerHTML = message;
+            thank_you.classList.add('visible');
+            $(thank_you).fadeIn(200);
+        })
+
+        $('a[form-close]').focus();
+
+        // Analytics
+        /*
+        dataLayer.push({
+          event: 'pageview',
+          page: {
+            path: '/successful-submission',
+            title: 'Successful Submission'
+          }
+        });
+        */
+
+    },
+
+
+    show_loader: function () {
+        custom_form.vars.is_loading = true;
+
+        if (custom_form.vars.loading_el == null)
+            custom_form.vars.loading_el = document.querySelector('.modal-content .loading')
+
+        custom_form.vars.loading_el.style.display = 'flex'
+        window.setTimeout(function () {
+            custom_form.vars.loading_el.style.opacity = '1'
+        }, 50)
+    },
+
+    hide_loader: function () {
+        custom_form.vars.is_loading = false;
+        custom_form.vars.loading_el.style.opacity = '0'
+        window.setTimeout(function () {
+            custom_form.vars.loading_el.style.display = 'none'
+        }, 400)
+    },
+
+    hideLabelForField: function (target) {
+        var label = document.querySelector('label[for="' + target.id + '"]');
+
+        if (target.value) {
+            label.classList.add('visuallyhidden');
+        } else {
+            label.classList.remove('visuallyhidden');
+        }
+    },
+
+    labelFocusIn: function () {
+        document.addEventListener("focusin", (e) => {
+            if (e.target.classList.contains('label-text')) {
+                if (e.target.value == "") {
+                    var label = document.querySelector('label[for="' + e.target.id + '"]');
+                    label.classList.add('visuallyhidden');
+                }
+            }
+        });
+    },
+
+    labelFocusOut: function () {
+        document.addEventListener("focusout", (e) => {
+            if (e.target.classList.contains('label-text')) {
+                custom_form.hideLabelForField(e.target);
+            }
+        });
+    },
+
+    labelChange: function () {
+        document.addEventListener("change", (e) => {
+            if (e.target.classList.contains('label-text')) {
+                var label = document.querySelector('label[for="' + e.target.id + '"]');
+                if (e.target.value) {
+                    label.classList.add('visuallyhidden');
+                } else {
+                    label.classList.remove('visuallyhidden');
+                }
+            }
+        });
+    },
+
+    getSelectValues: function (select) {
+        var result = [];
+        var options = select && select.options;
+        var opt;
+
+        for (var i = 0, iLen = options.length; i < iLen; i++) {
+            opt = options[i];
+
+            if (opt.selected) {
+                result.push(opt.value || opt.text);
+            }
+        }
+        return result;
+    },
+
+    bind_events: function () {
+
+        //console.log(window.location.hash)
+
+        if(window.location.hash.includes('#register')) {
+            modal.openModal('register')
+        }
+
+        if(window.location.hash.includes('#privacy-policy')) {
+            modal.openModal('privacy')
+        }        
+
+        var gform = document.getElementById(custom_form.vars.form_id);
+        var inputs = document.querySelectorAll("#" + custom_form.vars.form_id + " input, #" + custom_form.vars.form_id + " textarea");
+        var selects = document.querySelectorAll("#" + custom_form.vars.form_id + " select");
+
+        custom_form.labelFocusIn();
+        custom_form.labelFocusOut();
+        custom_form.labelChange();
+
+        gform.addEventListener('submit', e => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+            if (custom_form.vars.is_loading == true) {
+                //console.log('was loading')
+                return
+            }
+
+            custom_form.show_loader();
+
+            var honeypot = document.getElementById(custom_form.vars.honeypot_id);
+            if (honeypot.value != "") {
+                console.log('No funny business!')
+                alert('There was an issue submitting your form. Please try again.')
+                return
+            }
+
+            var form_data = {};
+
+            // Input values
+            var inputs = [].slice.call(e.target.getElementsByTagName('input'));
+            inputs.forEach(input => {
+
+                //console.log(input.type);
+
+                if (input.type == 'checkbox') {
+                    if (input.checked) {
+                        form_data[input.name] = 'YES'
+                        //console.log("CHECKED")
+                    }
+                } else if (input.type == 'radio') {
+                    if (input.checked) {
+                        form_data[input.name] = input.value
+                        //console.log("CHECKED")
+                    }
+                } else {
+                    form_data[input.name] = input.value;
+                }
+
+            });
+
+            // Select values
+            var selects = [].slice.call(e.target.getElementsByTagName('select'));
+            selects.forEach(select => {
+                if (select.multiple) {
+                    form_data[select.name] = custom_form.getSelectValues(select);
+                } else {
+                    form_data[select.name] = select.options[select.selectedIndex].value;
+                }
+            });
+
+            // Textarea values
+            var textareas = [].slice.call(e.target.getElementsByTagName('textarea'));
+            textareas.forEach(textarea => {
+                form_data[textarea.name] = textarea.value;
+            });            
+
+            custom_form.send_entry(form_data)
+        })
+
+        inputs.forEach(input => {
+            input.addEventListener('focus', e => {
+                if(input.type != 'checkbox'){
+                    input.parentNode.classList.add('label-top');
+                }
+            })
+
+            input.addEventListener('blur', e => {
+                if (input.value == "" && input.type != 'checkbox') {
+                    input.parentNode.classList.remove('label-top');
+                }
+            })
+        })
+
+        selects.forEach(select => {
+            select.addEventListener('change', e => {
+                //console.log(select.options[select.selectedIndex].value);
+                //console.log('CHANGES')
+
+                if (select.options[select.selectedIndex].value != "") {
+                    select.closest('.input-box').classList.add('label-top');
+                } else {
+                    select.closest('.input-box').classList.remove('label-top');
+                }
+
+            })
+        })
+
+        /*
+        let check = document.getElementById('input_22');
+        check.addEventListener('change', e => {
+            check.parentNode.classList.toggle('checked')
+        })
+        */
+
+        document.querySelectorAll('a[href="#register"]').forEach(link => {
+            link.addEventListener('click', e =>{
+                modal.openModal('register')
+            })
+        })
+    },
+
+    modal_focus_trap: function () {
+        var element = document.getElementById('registerModal');
+        var focusableEls = element.querySelectorAll('a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])'),
+            firstFocusableEl = focusableEls[0];
+        lastFocusableEl = focusableEls[focusableEls.length - 1];
+        KEYCODE_TAB = 9;
+
+        element.addEventListener('keydown', function (e) {
+            var isTabPressed = (e.key === 'Tab' || e.keyCode === KEYCODE_TAB);
+
+            if (!isTabPressed) {
+                return;
+            }
+
+            if (e.shiftKey) /* shift + tab */ {
+                if (document.activeElement === firstFocusableEl) {
+                    lastFocusableEl.focus();
+                    e.preventDefault();
+                }
+            } else /* tab */ {
+                if (document.activeElement === lastFocusableEl) {
+                    firstFocusableEl.focus();
+                    e.preventDefault();
+                }
+            }
+
+        });
+    },
+
+
+    init: function () {
+        custom_form.bind_events();
+    }
+
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    if(document.getElementById(custom_form.vars.form_id)){
+        custom_form.init();
+    }
+})

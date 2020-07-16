@@ -1,0 +1,36 @@
+
+/*
+$scroll-factor : .5;
+$background: #333;
+$header-height : 40em;
+
+.page-wrap {
+    height: 150vh;
+    max-height: 100%;
+    overflow-x: hidden;
+    perspective: 1px;
+    perspective-origin: center top;
+    transform-style: preserve-3d;
+  }
+  
+  header {
+    height: 80vh;
+    background: url('../../dist/img/header.jpg') top left no-repeat;
+    background-size: cover;
+    margin-top: 1em;
+    padding: 0 0.5em;
+    position: relative;
+    vertical-align: top;
+    transform-origin: center top;
+    transform: 
+      translateZ(-#{$scroll-factor * 2}px)
+      scale(1 + $scroll-factor * 2);
+  }
+  
+  .section {
+    min-height: 200vh;
+    background: white;
+    transform: translateZ(0);
+    padding: 10px 0;
+  }
+  */

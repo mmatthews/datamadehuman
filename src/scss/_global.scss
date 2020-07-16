@@ -1,0 +1,123 @@
+html{
+    font-size: 16px;
+
+    background: $white;
+    color: $black;
+
+
+    body{
+        -moz-osx-font-smoothing: grayscale; /*(For Firefox)*/
+        -webkit-font-smoothing: antialiased; /*(For Chrome and Safari)*/     
+        font-weight: 400;   
+    }
+}
+
+.page-wrap{
+    overflow: hidden;
+}
+
+.container{
+    max-width: 100%;
+    width: $container;
+    padding: 0 2em;
+    margin: 0 auto;
+
+    img{
+        max-width: 100%;
+        height: auto;
+    }
+
+    @media screen and (min-width: $md){
+        padding: 0 2em;
+        max-width: $sm;
+    }
+
+    @media screen and (min-width: $lg){
+        padding: 0 3em;       
+        max-width: $lg; 
+    }    
+
+    &.nopadding{
+        padding: 0;
+        width: $container;
+    }
+}
+
+.underlined:before{
+    content: "_";
+    color: currentColor;
+    font-weight: 600;
+}
+
+.underlined-img{
+    position: relative;
+    img{
+        display: block;
+    }
+    &::after{
+        content: "";
+        display: block;
+        border-bottom: 7px solid $yellow;
+        width: 7em;
+        bottom: -15px;
+        position: absolute;
+    }
+}
+
+.button,
+.featured-post-link{
+    font-family: $sans_regular;
+    text-decoration: none;
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    border: 1px solid $yellow;
+    color: $yellow;
+    background: transparent;
+    padding: 0.55em 2.5em;
+    padding-bottom: 0.425em;
+    transition: all 0.25s ease-in-out; 
+    cursor: pointer;
+    font-size: 0.85em;
+    line-height: 2;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-variation-settings: 'wght' 575;
+    letter-spacing: 0.0025em;
+    min-width: 9em;
+    text-align: center;
+    border-radius: 2em;
+
+    &:hover,
+    &:focus{
+        text-decoration: none;
+        outline: none;
+        box-shadow: none;
+        background: $yellow;
+        color: $black;
+    }
+
+    &.blue{
+        color: $white !important; // ovverride imported blog styles
+    }
+}
+
+
+
+.visuallyhidden {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px; width: 1px;
+    margin: -1px; padding: 0; border: 0;
+}
+
+
+.yellow{
+    color: $yellow;
+}

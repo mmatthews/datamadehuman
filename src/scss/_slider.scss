@@ -1,0 +1,31 @@
+
+.swiper-container{
+    position: relative;
+
+    .swiper-prev,
+    .swiper-next{
+        height: 3em;
+        width: 2em;
+        margin: 0 0.75em;
+        border: none;
+        background: url('../../dist/img/prev.svg') center center no-repeat;
+        background-size: contain;
+        cursor: pointer;
+        position: absolute;
+        left: 0;
+        top: calc(50% - 1.5em);
+
+        &:focus{
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+    }
+
+    .swiper-next{
+        background: url('../../dist/img/next.svg') center center no-repeat;
+        background-size: contain;
+        left: auto;
+        right: 0;
+    }      
+}

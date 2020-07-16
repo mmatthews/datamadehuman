@@ -1,0 +1,28 @@
+.selectric-wrapper{
+    &+ label{
+        padding-right: 3em;
+    }
+    .selectric{
+        background: transparent;
+        position: relative;
+        border: none;
+        padding-right: 2.25em;
+
+        .label{
+            margin: 0;
+            line-height: 1.45;
+            pointer-events: none;
+        }
+
+        .dropdown{
+            height: calc(100% - 2px);
+            width: 2.5em;
+            background: url('../img/dropdown.svg') center center no-repeat;
+            background-size: 0.75em;
+            position: absolute;
+            display: block;
+            top: 1px;
+            right: 1px;
+        }
+    }
+}
