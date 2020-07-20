@@ -38,6 +38,75 @@
       margin-bottom: 3.5em;
     }
 
+    // Animations ################################################
+
+    @keyframes animate_1 {
+      from {
+        opacity: 0;
+        transform: translateY(30%) translateX(-10%);
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes animate_1_rev {
+      from {
+        opacity: 1;
+      }
+      to {
+        transform: translateY(30%) translateX(-10%);
+        opacity: 0;
+      }
+    }      
+
+    .pull-left{
+      animation-duration: 1.5s;
+      animation-fill-mode: both;
+      opacity: 0;
+      animation-name: animate_1_rev;
+    }
+
+    &.animate .pull-left{
+      animation-name: animate_1;      
+    }
+    
+    
+    @keyframes animate_2 {
+      from {
+        opacity: 0;
+        transform: translateY(30%) translateX(10%);
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes animate_2_rev {
+      from {
+        opacity: 1;
+      }
+      to {
+        transform: translateY(30%) translateX(10%);
+        opacity: 0;
+      }
+    }      
+
+    .underlined-img{
+      animation-duration: 1s;
+      animation-fill-mode: both;
+      opacity: 0;
+      animation-name: animate_2_rev;
+    }
+
+    &.animate .underlined-img{
+      animation-name: animate_2;      
+    }   
+
+    // End Animations ################################################
+
+
+
     .underlined-img {
       position: relative;
       right: -2.5em;
@@ -61,70 +130,7 @@
 
     @media screen and (min-width: $lg) {
       overflow: unset;
-      margin-bottom: 0;
-
-      @keyframes animate_1 {
-        from {
-          opacity: 0;
-          transform: translateY(30%) translateX(-10%);
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      @keyframes animate_1_rev {
-        from {
-          opacity: 1;
-        }
-        to {
-          transform: translateY(30%) translateX(-10%);
-          opacity: 0;
-        }
-      }      
-  
-      .pull-left{
-        animation-duration: 1.5s;
-        animation-fill-mode: both;
-        opacity: 0;
-        animation-name: animate_1_rev;
-      }
-  
-      &.animate .pull-left{
-        animation-name: animate_1;      
-      }
-      
-      
-      @keyframes animate_2 {
-        from {
-          opacity: 0;
-          transform: translateY(30%) translateX(10%);
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      @keyframes animate_2_rev {
-        from {
-          opacity: 1;
-        }
-        to {
-          transform: translateY(30%) translateX(10%);
-          opacity: 0;
-        }
-      }      
-  
-      .underlined-img{
-        animation-duration: 1s;
-        animation-fill-mode: both;
-        opacity: 0;
-        animation-name: animate_2_rev;
-      }
-  
-      &.animate .underlined-img{
-        animation-name: animate_2;      
-      }                
+      margin-bottom: 0;             
 
 
       .copy {
