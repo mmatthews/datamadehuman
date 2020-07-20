@@ -55,12 +55,78 @@
 
       @media screen and (min-width: $md) {
         width: 40vw;
-      }
+      }      
     }
+
 
     @media screen and (min-width: $lg) {
       overflow: unset;
       margin-bottom: 0;
+
+      @keyframes animate_1 {
+        from {
+          opacity: 0;
+          transform: translateY(30%) translateX(-10%);
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes animate_1_rev {
+        from {
+          opacity: 1;
+        }
+        to {
+          transform: translateY(30%) translateX(-10%);
+          opacity: 0;
+        }
+      }      
+  
+      .pull-left{
+        animation-duration: 1.5s;
+        animation-fill-mode: both;
+        opacity: 0;
+        animation-name: animate_1_rev;
+      }
+  
+      &.animate .pull-left{
+        animation-name: animate_1;      
+      }
+      
+      
+      @keyframes animate_2 {
+        from {
+          opacity: 0;
+          transform: translateY(30%) translateX(10%);
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes animate_2_rev {
+        from {
+          opacity: 1;
+        }
+        to {
+          transform: translateY(30%) translateX(10%);
+          opacity: 0;
+        }
+      }      
+  
+      .underlined-img{
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        opacity: 0;
+        animation-name: animate_2_rev;
+      }
+  
+      &.animate .underlined-img{
+        animation-name: animate_2;      
+      }                
+
+
       .copy {
         margin-top: 10%;
         max-width: 28em;
@@ -99,6 +165,28 @@
     p.yellow {
       font-size: 1.75em;
       margin-bottom: 2.5em;
+    }
+
+    @media screen and (min-width: $lg){
+      @keyframes fadeInLarge {
+        from {
+          opacity: 0;
+          transform: translateY(30%);
+        }
+        to {
+          opacity: 1;
+        }
+      }    
+  
+      p.large{
+        animation-duration: 1.5s;
+        animation-fill-mode: both;
+        opacity: 0;
+      }
+  
+      p.large.animate{
+        animation-name: fadeInLarge;      
+      }      
     }
 
     .copy {
@@ -178,7 +266,6 @@
 
     .values {
       padding: 1em;
-      opacity: 0;
       transition: all 1s ease-in-out;
 
       .value {
@@ -258,6 +345,7 @@
         width: 125%;
         position: relative;
         right: -12.5%;
+        opacity: 0;        
 
         .value {
           margin-top: 0;
@@ -266,47 +354,47 @@
           width: 31%;
         }
       }
-    }
-
-    &.animate {
-      .values {
-        opacity: 1;
-
-        @keyframes fadeInBottom {
-          from {
-            opacity: 0;
-            transform: translateY(500%);
+      &.animate {
+        .values {
+          opacity: 1;
+  
+          @keyframes fadeInBottom {
+            from {
+              opacity: 0;
+              transform: translateY(500%);
+            }
+            to {
+              opacity: 1;
+            }
           }
-          to {
-            opacity: 1;
+  
+          @keyframes fadeInTop {
+            from {
+              opacity: 0;
+              transform: translateY(-500%);
+            }
+            to {
+              opacity: 1;
+            }
           }
-        }
-
-        @keyframes fadeInTop {
-          from {
-            opacity: 0;
-            transform: translateY(-500%);
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-        .value {
-          animation-duration: 1.5s;
-          animation-fill-mode: both;          
-          &:nth-child(1) {
-            animation-name: fadeInTop;
-          }
-          &:nth-child(2) {
-            animation-name: fadeInBottom;
-          }
-          &:nth-child(3) {
-            animation-name: fadeInTop;
+  
+          .value {
+            animation-duration: 1.5s;
+            animation-fill-mode: both;          
+            &:nth-child(1) {
+              animation-name: fadeInTop;
+            }
+            &:nth-child(2) {
+              animation-name: fadeInBottom;
+            }
+            &:nth-child(3) {
+              animation-name: fadeInTop;
+            }
           }
         }
       }
     }
+
   }
 
   .why.section {
@@ -336,6 +424,44 @@
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
+      animation-duration: 1.5s;
+      animation-fill-mode: both;
+      animation-name: fadeExpandableRev;   
+      
+      
+      opacity: 0;
+
+      @keyframes fadeExpandable {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeExpandableRev {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }      
+  
+      &.animate{
+        animation-name: fadeExpandable;      
+      }
+      
+      &:nth-child(1){
+        animation-delay: 0.1s;
+      }
+      &:nth-child(2){
+        animation-delay: 0.3s;
+      }
+      &:nth-child(3){
+        animation-delay: 0.6s;
+      }                    
 
       &::after {
         content: "";

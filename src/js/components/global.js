@@ -36,13 +36,29 @@ const global = {
         .onStepEnter(response => {
             // { element, index, direction }
             console.log(response.index)
+
+            if(response.index == 1){
+                document.querySelector('.what.section').classList.add('animate')
+            }            
+
             if(response.index == 3){
                 document.querySelector('.who.section').classList.add('animate')
             }
+
+            if(response.index == 2){
+                document.querySelector('.how p.large').classList.add('animate')
+            }
+
+            if(response.index == 4){
+                document.querySelectorAll('.expandables .expandable').forEach(item => {
+                    item.classList.add('animate')
+                })
+            }
         })
         .onStepExit(response => {
-            // { element, index, direction }
-            document.querySelector('.who.section').classList.remove('animate')            
+            // { element, index, direction }      
+            document.querySelector('.who.section').classList.remove('animate')
+            document.querySelector('.how p.large').classList.remove('animate')            
         });
 
         // setup resize event
